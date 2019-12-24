@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/sticks-and-stones.iml" filepath="$PROJECT_DIR$/sticks-and-stones.iml" />
+      <module fileurl="file://$PROJECT_DIR$/core/sticks-and-stones-core.iml" filepath="$PROJECT_DIR$/core/sticks-and-stones-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/desktop/sticks-and-stones-desktop.iml" filepath="$PROJECT_DIR$/desktop/sticks-and-stones-desktop.iml" />
+    </modules>
+  </component>
+</project>
