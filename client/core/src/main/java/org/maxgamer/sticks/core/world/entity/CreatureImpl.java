@@ -5,7 +5,11 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.maxgamer.sticks.core.prototype.CreaturePrototype;
+import org.maxgamer.sticks.core.sound.SoundKit;
+import org.maxgamer.sticks.core.sound.SoundLoop;
+import org.maxgamer.sticks.core.sound.SoundType;
 import org.maxgamer.sticks.core.tick.Clock;
+import org.maxgamer.sticks.core.world.Direction;
 import org.maxgamer.sticks.core.world.Momentum;
 import org.maxgamer.sticks.core.world.view.Viewport;
 
@@ -16,11 +20,19 @@ public class CreatureImpl extends EntityImpl implements Tickable {
     private Animation[] animations;
     private Momentum momentum;
     private float frameTime = 0f;
+    private SoundKit sounds;
+    private SoundLoop walking;
 
     public CreatureImpl(CreaturePrototype prototype) {
         this.prototype = prototype;
         this.texture = new Texture(Gdx.files.internal(prototype.getAnimations()));
         this.textures = TextureRegion.split(this.texture, 64, 64);
+        this.sounds = new SoundKit();
+
+        for (String footstep : prototype.getFootstep()) {
+            this.sounds.load(SoundType.FOOTSTEP, Gdx.files.internal("sound/" + footstep));
+        }
+        walking = new SoundLoop(this.sounds.get(SoundType.FOOTSTEP), (int) ((float) Momentum.DURATION_IN_TICKS / Clock.TICKS_PER_SECOND / textures[0].length * 4 * 1000), 0.5f);
 
         this.animations = new Animation[4];
         for (int i = 0; i < 4; i++) {
@@ -56,16 +68,11 @@ public class CreatureImpl extends EntityImpl implements Tickable {
         return true;
     }
 
+    public void setDirection(Direction direction) {
+        this.direction = direction;
+    }
+
     public void render(float delta, Viewport viewport) {
-        int progress = 0;
-
-        if (momentum != null && !momentum.isDone()) {
-            progress = momentum.getProgress();
-        }
-
-        /*TextureRegion sprite = animations[direction.ordinal()][progress % 4];
-        viewport.getSpriteBatch().draw(sprite, position.getX(), position.getY(), width, height);*/
-
         frameTime += delta;
 
         Animation animation = animations[direction.ordinal()];
@@ -73,6 +80,7 @@ public class CreatureImpl extends EntityImpl implements Tickable {
         TextureRegion region;
         if (isMoving()) {
             region = animation.getKeyFrame(frameTime, true);
+            walking.play();
         } else {
             region = animation.getKeyFrame(0, true);
         }

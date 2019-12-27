@@ -10,7 +10,7 @@
 
 	<artifactId>sticks-and-stones-desktop</artifactId>
 	<packaging>jar</packaging>
-	<name>Launcher desktop</name>
+	<name>Desktop</name>
 
 	<properties>
 		<mainClass>org.maxgamer.sticks.java.LauncherDesktop</mainClass>
