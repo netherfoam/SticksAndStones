@@ -1,0 +1,15 @@
+{
+  "animations": "trainer.png",
+  "footstep": [
+    "footstep/0.wav",
+    "footstep/1.wav",
+    "footstep/2.wav",
+    "footstep/3.wav",
+    "footstep/4.wav",
+    "footstep/5.wav",
+    "footstep/6.wav",
+    "footstep/7.wav",
+    "footstep/8.wav",
+    "footstep/9.wav"
+  ]
+}

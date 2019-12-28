@@ -3,6 +3,7 @@ package org.maxgamer.sticks.core.world.entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.maxgamer.sticks.core.prototype.CreaturePrototype;
 import org.maxgamer.sticks.core.sound.SoundKit;
@@ -11,7 +12,7 @@ import org.maxgamer.sticks.core.sound.SoundType;
 import org.maxgamer.sticks.core.tick.Clock;
 import org.maxgamer.sticks.core.world.Direction;
 import org.maxgamer.sticks.core.world.Momentum;
-import org.maxgamer.sticks.core.world.view.Viewport;
+import org.maxgamer.sticks.core.viewport.Viewport;
 
 public class CreatureImpl extends EntityImpl implements Tickable {
     private CreaturePrototype prototype;
@@ -41,7 +42,7 @@ public class CreatureImpl extends EntityImpl implements Tickable {
     }
 
     @Override
-    public void tick() {
+    public boolean tick() {
         if (momentum != null && !momentum.isDone()) {
             position = momentum.apply(position);
 
@@ -49,6 +50,8 @@ public class CreatureImpl extends EntityImpl implements Tickable {
                 momentum = null;
             }
         }
+
+        return false;
     }
 
     public boolean isMoving() {
@@ -72,7 +75,7 @@ public class CreatureImpl extends EntityImpl implements Tickable {
         this.direction = direction;
     }
 
-    public void render(float delta, Viewport viewport) {
+    public void render(float delta, SpriteBatch batch) {
         frameTime += delta;
 
         Animation animation = animations[direction.ordinal()];
@@ -85,6 +88,6 @@ public class CreatureImpl extends EntityImpl implements Tickable {
             region = animation.getKeyFrame(0, true);
         }
 
-        viewport.getSpriteBatch().draw(region, position.getX(), position.getY(), width, height);
+        batch.draw(region, position.getX(), position.getY(), width, height);
     }
 }

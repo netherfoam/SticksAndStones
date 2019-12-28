@@ -11,6 +11,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -31,10 +32,18 @@
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.2" />
+    <property name="restartRequiresConfirmation" value="false" />
   </component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="org.maxgamer.sticks.common.clock" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/client/assets/map/tiles" />
+      <recent name="$PROJECT_DIR$/client/assets/map/zone" />
+      <recent name="$PROJECT_DIR$/client/assets/proto/" />
+      <recent name="$PROJECT_DIR$/client/assets/map" />
+      <recent name="$PROJECT_DIR$/client/assets/map/meta" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -96,8 +105,21 @@
       <option name="presentableId" value="Default" />
       <updated>1577456717169</updated>
       <workItem from="1577456720068" duration="750000" />
-      <workItem from="1577457482019" duration="4478000" />
+      <workItem from="1577457482019" duration="4543000" />
+      <workItem from="1577491559629" duration="12223000" />
     </task>
     <servers />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <condition expression="map == null" language="JAVA" />
+          <url>jar://$MAVEN_REPOSITORY$/com/badlogicgames/gdx/gdx/1.2.0/gdx-1.2.0-sources.jar!/com/badlogic/gdx/maps/tiled/renderers/BatchTiledMapRenderer.java</url>
+          <line>105</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

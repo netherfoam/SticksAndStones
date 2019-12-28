@@ -11,6 +11,7 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.util.AttributeKey;
 import org.maxgamer.sticks.common.model.World;
 import org.maxgamer.sticks.common.model.state.CreatureAdd;
+import org.maxgamer.sticks.common.network.frame.IdentityFrame;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.ContextStoppedEvent;
@@ -72,14 +73,18 @@ public class NettyServer {
                         clients.add(client);
                         channel.attr(CLIENT_ATTR).set(client);
 
+                        IdentityFrame identity = new IdentityFrame();
+                        identity.setIdentity(playerId);
+                        channel.writeAndFlush(identity);
+
                         CreatureAdd add = new CreatureAdd(playerId, 1, 50, 50);
                         world.onChange(add);
                     }
 
                     @Override
                     public void handlerRemoved(ChannelHandlerContext ctx) throws Exception {
-                        Client client = ctx.attr(CLIENT_ATTR).get();
-                        clients.remove(client);
+                        //Client client = ctx.attr(CLIENT_ATTR).get();
+                        //clients.remove(client);
                     }
                 })
                 .option(ChannelOption.SO_BACKLOG, 128)

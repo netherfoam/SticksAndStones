@@ -21,6 +21,6 @@ public class Client {
     }
 
     public void write(Frame message) {
-        channel.write(message);
+        channel.writeAndFlush(message);
     }
 }

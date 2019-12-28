@@ -17,8 +17,6 @@ public class NetworkController {
 
         this.in = socket.getInputStream();
         this.out = socket.getOutputStream();
-
-        // TODO: subscribe to frames from input stream
     }
 
     public void move(int dx, int dy) {
@@ -37,5 +35,9 @@ public class NetworkController {
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
+    }
+
+    public InputStream input() {
+        return in;
     }
 }

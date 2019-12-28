@@ -2,8 +2,12 @@ package org.maxgamer.sticks.core.world;
 
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapProperties;
+import com.badlogic.gdx.maps.MapRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import org.maxgamer.sticks.core.viewport.Viewport;
 
 public class Zone {
     private static final byte COLLIDE_NONE = 0x00;
@@ -16,9 +20,13 @@ public class Zone {
 
     private TiledMap map;
     private byte[][] collision;
+    private MapRenderer mapRenderer;
 
-    public Zone(TiledMap map, TiledMap collisionMap) {
-        this.map = map;
+    public Zone(TmxMapLoader loader) {
+        this.map = loader.load("map/zone/land.tmx");
+        TiledMap collisionMap = loader.load("map/meta/land_collision_rd.tmx");
+
+        mapRenderer = new OrthogonalTiledMapRenderer(map, 1 / 32f);
 
         MapProperties properties = map.getProperties();
         this.collision = new byte[properties.get("width", Integer.class)][properties.get("height", Integer.class)];
@@ -66,6 +74,11 @@ public class Zone {
                 }
             }
         }
+    }
+
+    public void render(float delta, Viewport viewport) {
+        mapRenderer.setView(viewport.getCamera());
+        mapRenderer.render();
     }
 
     public boolean isCollision(int x, int y) {

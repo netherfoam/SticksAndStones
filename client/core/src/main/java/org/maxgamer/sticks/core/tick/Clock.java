@@ -18,7 +18,7 @@ public class Clock {
     private List<Tickable> subscribers = new ArrayList<>(200);
 
     public Clock() {
-        this.thread = new Thread() {
+        this.thread = new Thread("Clock") {
             @Override
             public void run() {
                 running = true;
@@ -48,14 +48,19 @@ public class Clock {
         thread.start();
     }
 
-    private void tick() {
+    private synchronized void tick() {
         Iterator<Tickable> it = subscribers.iterator();
         while (it.hasNext()) {
             Tickable tickable = it.next();
             try {
-                tickable.tick();
+                boolean ended = tickable.tick();
+
+                if (ended) {
+                    it.remove();
+                }
             } catch (Exception e) {
                 logger.warning(() -> tickable.toString() + " threw " + e.getClass().getName() + ": " + e.getMessage() + ", trace: " + e.toString());
+                e.printStackTrace();
 
                 it.remove();
                 continue;
@@ -63,7 +68,7 @@ public class Clock {
         }
     }
 
-    public void subscribe(Tickable t) {
+    public synchronized void subscribe(Tickable t) {
         if (subscribers.contains(t)) {
             return;
         }
@@ -71,7 +76,7 @@ public class Clock {
         subscribers.add(t);
     }
 
-    public boolean unsubscribe(Tickable t) {
+    public synchronized boolean unsubscribe(Tickable t) {
         return subscribers.remove(t);
     }
 

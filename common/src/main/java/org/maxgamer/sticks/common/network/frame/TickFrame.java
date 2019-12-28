@@ -49,6 +49,10 @@ public class TickFrame extends Frame {
         return Collections.unmodifiableList(added);
     }
 
+    public List<MovedEntity> getMoved() {
+        return moved;
+    }
+
     public List<RemovedEntity> getRemoved() {
         return Collections.unmodifiableList(removed);
     }
@@ -109,18 +113,18 @@ public class TickFrame extends Frame {
         }
     }
 
-    private static class AddedEntity {
+    public static class AddedEntity {
         public int id;
         public int proto;
         public int x;
         public int y;
     }
 
-    private static class RemovedEntity {
+    public static class RemovedEntity {
         public int id;
     }
 
-    private static class MovedEntity {
+    public static class MovedEntity {
         public int id;
         public byte dx;
         public byte dy;
