@@ -1,17 +1,13 @@
 package org.maxgamer.sticks.common.network;
 
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.util.AttributeKey;
 import org.maxgamer.sticks.common.model.World;
-import org.maxgamer.sticks.common.model.state.CreatureAdd;
-import org.maxgamer.sticks.common.network.frame.IdentityFrame;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.ContextStoppedEvent;
@@ -23,8 +19,6 @@ import java.util.List;
 
 @Component
 public class NettyServer {
-    private static final AttributeKey<Client> CLIENT_ATTR = AttributeKey.newInstance("client");
-
     private FrameFactory frameFactory;
     private World world;
 
@@ -65,26 +59,9 @@ public class NettyServer {
                         int playerId = nextPlayerId++;
 
                         channel.pipeline()
-                                .addLast("decoder", new GameDecoder(frameFactory))
-                                .addLast("handler", new GameHandler(playerId, world))
-                                .addFirst("encoder", new GameEncoder());
-
-                        Client client = new Client(playerId, channel);
-                        clients.add(client);
-                        channel.attr(CLIENT_ATTR).set(client);
-
-                        IdentityFrame identity = new IdentityFrame();
-                        identity.setIdentity(playerId);
-                        channel.writeAndFlush(identity);
-
-                        CreatureAdd add = new CreatureAdd(playerId, 1, 50, 50);
-                        world.onChange(add);
-                    }
-
-                    @Override
-                    public void handlerRemoved(ChannelHandlerContext ctx) throws Exception {
-                        //Client client = ctx.attr(CLIENT_ATTR).get();
-                        //clients.remove(client);
+                                .addLast("decoder", new GameDecoder(frameFactory, clients, new Client(playerId, channel)))
+                                .addFirst("encoder", new GameEncoder())
+                                .addLast("handler", new GameHandler(playerId, world));
                     }
                 })
                 .option(ChannelOption.SO_BACKLOG, 128)

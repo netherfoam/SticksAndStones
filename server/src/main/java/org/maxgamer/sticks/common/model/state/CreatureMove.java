@@ -1,14 +1,14 @@
 package org.maxgamer.sticks.common.model.state;
 
+import org.maxgamer.sticks.common.world.Direction;
+
 public class CreatureMove extends StateChange {
     private int creatureId;
-    private byte dx;
-    private byte dy;
+    private Direction direction;
 
-    public CreatureMove(int creatureId, byte dx, byte dy) {
+    public CreatureMove(int creatureId, Direction direction) {
         this.creatureId = creatureId;
-        this.dx = dx;
-        this.dy = dy;
+        this.direction = direction;
     }
 
     public int getCreatureId() {
@@ -19,20 +19,12 @@ public class CreatureMove extends StateChange {
         this.creatureId = creatureId;
     }
 
-    public byte getDx() {
-        return dx;
+    public Direction getDirection() {
+        return direction;
     }
 
-    public void setDx(byte dx) {
-        this.dx = dx;
-    }
-
-    public byte getDy() {
-        return dy;
-    }
-
-    public void setDy(byte dy) {
-        this.dy = dy;
+    public void setDirection(Direction direction) {
+        this.direction = direction;
     }
 
     @Override

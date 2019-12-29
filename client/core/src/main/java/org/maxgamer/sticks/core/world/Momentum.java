@@ -1,60 +1,55 @@
 package org.maxgamer.sticks.core.world;
 
+import org.maxgamer.sticks.common.world.Direction;
 import org.maxgamer.sticks.core.FloatingPosition;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Momentum {
     public static final int DURATION_IN_TICKS = 16;
+    public static final float TICK_DISTANCE = 1.0f / DURATION_IN_TICKS;
 
-    private int progress;
-    private float x;
-    private float y;
+    private int remainingTicks;
+    private List<Direction> directions = new ArrayList<>();
 
-    public Momentum(float x, float y) {
-        if ((x == 0) == (y == 0)) {
-            throw new IllegalArgumentException("Momentum flows in one direction gave two. X: " + x + ", Y: " + y);
-        }
-
-        this.x = x;
-        this.y = y;
+    public Momentum() {
+        this.remainingTicks = 0;
     }
 
-    public int getProgress() {
-        return progress;
+    public Momentum append(Direction direction) {
+        this.remainingTicks += DURATION_IN_TICKS;
+        this.directions.add(direction);
+
+        return this;
     }
 
     public FloatingPosition apply(FloatingPosition position) {
-        if (progress >= DURATION_IN_TICKS) {
+        if (remainingTicks <= 0) {
             return position;
         }
 
-        FloatingPosition result = new FloatingPosition(position.getX() + x / DURATION_IN_TICKS, position.getY() + y / DURATION_IN_TICKS);
+        Direction direction = getDirection();
+        FloatingPosition result = position.add(direction.dx * TICK_DISTANCE, direction.dy * TICK_DISTANCE);
 
-        progress++;
+        remainingTicks--;
+
+        if (remainingTicks % DURATION_IN_TICKS == 0) {
+            directions.remove(0);
+        }
 
         return result;
     }
 
     public boolean isDone() {
-        return progress >= DURATION_IN_TICKS;
+        return remainingTicks <= 0;
     }
 
     public Direction getDirection() {
-        if (x > 0) {
-            return Direction.EAST;
+        if (directions.isEmpty()) {
+            return null;
         }
 
-        if (x < 0) {
-            return Direction.WEST;
-        }
-
-        if (y > 0) {
-            return Direction.NORTH;
-        }
-
-        if (y < 0) {
-            return Direction.SOUTH;
-        }
-
-        return Direction.SOUTH;
+        return directions.get(0);
     }
 }

@@ -1,10 +1,10 @@
 package org.maxgamer.sticks.core.controller;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
+import org.maxgamer.sticks.common.world.Direction;
 import org.maxgamer.sticks.core.network.NetworkController;
-import org.maxgamer.sticks.core.world.Direction;
-import org.maxgamer.sticks.core.world.Momentum;
 import org.maxgamer.sticks.core.world.Zone;
 import org.maxgamer.sticks.core.world.entity.CreatureImpl;
 
@@ -35,6 +35,10 @@ public class CreatureController extends InputAdapter {
     @Override
     public boolean keyUp(int keycode) {
         pressed.remove((Integer) keycode);
+
+        if (keycode == Input.Keys.ESCAPE) {
+            Gdx.app.exit();
+        }
 
         return false;
     }
@@ -100,11 +104,11 @@ public class CreatureController extends InputAdapter {
         boolean collisionX = zone.isCollision((int) creature.getPosition().getX() + dx, (int) creature.getPosition().getY());
         boolean collisionY = zone.isCollision((int) creature.getPosition().getX(), (int) creature.getPosition().getY() + dy);
 
-        Momentum momentum;
+        Direction direction;
         if (dx != 0 && !collisionX) {
-            momentum = new Momentum(dx, 0);
+            direction = Direction.of(dx, 0);
         } else if (dy != 0 && !collisionY) {
-            momentum = new Momentum(0, dy);
+            direction = Direction.of(0, dy);
         } else {
             if (dx != 0 || dy != 0) {
                 creature.setDirection(Direction.of(dx, dy));
@@ -114,7 +118,7 @@ public class CreatureController extends InputAdapter {
             return;
         }
 
-        network.move(dx, dy);
-        creature.move(momentum);
+        network.move(direction);
+        creature.move(direction);
     }
 }

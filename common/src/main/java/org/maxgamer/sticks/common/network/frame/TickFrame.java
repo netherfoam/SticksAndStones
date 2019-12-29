@@ -2,6 +2,7 @@ package org.maxgamer.sticks.common.network.frame;
 
 import org.maxgamer.sticks.common.stream.BinaryInputStream;
 import org.maxgamer.sticks.common.stream.BinaryOutputStream;
+import org.maxgamer.sticks.common.world.Direction;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -9,14 +10,12 @@ import java.util.Collections;
 import java.util.List;
 
 public class TickFrame extends Frame {
-    public static final int OPCODE = 10;
-
     private List<AddedEntity> added = new ArrayList<>();
     private List<RemovedEntity> removed = new ArrayList<>();
     private List<MovedEntity> moved = new ArrayList<>();
 
     public TickFrame() {
-        super(OPCODE);
+        super(Opcodes.TICK);
     }
 
     public void added(int id, int proto, int x, int y) {
@@ -36,11 +35,10 @@ public class TickFrame extends Frame {
         removed.add(remove);
     }
 
-    public void moved(int id, int dx, int dy) {
+    public void moved(int id, Direction direction) {
         MovedEntity move = new MovedEntity();
         move.id = id;
-        move.dx = (byte) dx;
-        move.dy = (byte) dy;
+        move.code = direction.code();
 
         moved.add(move);
     }
@@ -83,8 +81,7 @@ public class TickFrame extends Frame {
         for (int i = 0; i < movedTotal; i++) {
             MovedEntity moved = new MovedEntity();
             moved.id = in.readInt();
-            moved.dx = in.readByte();
-            moved.dy = in.readByte();
+            moved.code = in.readByte();
 
             this.moved.add(moved);
         }
@@ -108,8 +105,7 @@ public class TickFrame extends Frame {
         out.writeShort(this.moved.size());
         for (MovedEntity moved : this.moved) {
             out.writeInt(moved.id);
-            out.writeByte(moved.dx);
-            out.writeByte(moved.dy);
+            out.writeByte(moved.code);
         }
     }
 
@@ -126,7 +122,6 @@ public class TickFrame extends Frame {
 
     public static class MovedEntity {
         public int id;
-        public byte dx;
-        public byte dy;
+        public byte code;
     }
 }

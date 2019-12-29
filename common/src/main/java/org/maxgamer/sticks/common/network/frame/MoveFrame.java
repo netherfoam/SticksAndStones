@@ -2,44 +2,32 @@ package org.maxgamer.sticks.common.network.frame;
 
 import org.maxgamer.sticks.common.stream.BinaryInputStream;
 import org.maxgamer.sticks.common.stream.BinaryOutputStream;
+import org.maxgamer.sticks.common.world.Direction;
 
 import java.io.IOException;
 
 public class MoveFrame extends Frame {
-    public static final int OPCODE = 11;
-
-    private byte dx;
-    private byte dy;
+    private Direction direction;
 
     public MoveFrame() {
-        super(OPCODE);
+        super(Opcodes.MOVE);
     }
 
-    public byte getDx() {
-        return dx;
+    public Direction getDirection() {
+        return direction;
     }
 
-    public void setDx(byte dx) {
-        this.dx = dx;
-    }
-
-    public byte getDy() {
-        return dy;
-    }
-
-    public void setDy(byte dy) {
-        this.dy = dy;
+    public void setDirection(Direction direction) {
+        this.direction = direction;
     }
 
     @Override
     public void read(BinaryInputStream in) throws IOException {
-        dx = in.readByte();
-        dy = in.readByte();
+        direction = Direction.decode(in.readByte());
     }
 
     @Override
     public void write(BinaryOutputStream out) throws IOException {
-        out.writeByte(dx);
-        out.writeByte(dy);
+        out.writeByte(direction.code());
     }
 }

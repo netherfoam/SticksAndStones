@@ -2,7 +2,7 @@ package org.maxgamer.sticks.core.world.entity;
 
 import org.maxgamer.sticks.core.FloatingPosition;
 import org.maxgamer.sticks.core.Position;
-import org.maxgamer.sticks.core.world.Direction;
+import org.maxgamer.sticks.common.world.Direction;
 import org.maxgamer.sticks.core.viewport.Viewport;
 
 public class EntityImpl implements Entity {

@@ -3,35 +3,44 @@ package org.maxgamer.sticks.core.network;
 import org.maxgamer.sticks.common.network.FrameFactory;
 import org.maxgamer.sticks.common.network.frame.Frame;
 import org.maxgamer.sticks.common.network.frame.IdentityFrame;
+import org.maxgamer.sticks.common.network.frame.Opcodes;
 import org.maxgamer.sticks.common.network.frame.TickFrame;
 import org.maxgamer.sticks.common.stream.BinaryInputStream;
 import org.maxgamer.sticks.core.Game;
 
 import java.io.BufferedInputStream;
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.SocketException;
 import java.util.concurrent.Executor;
 
 public class NetworkListener {
     private static final int MAX_BUFFER = 1024 * 64;
+    private static FrameFactory FRAME_FACTORY;
+
+    static {
+        FRAME_FACTORY = new FrameFactory();
+
+        FRAME_FACTORY.register(Opcodes.TICK, TickFrame::new);
+        FRAME_FACTORY.register(Opcodes.IDENTITY, IdentityFrame::new);
+    }
 
     private Game game;
     private Executor executor;
     private Thread thread;
     private BufferedInputStream input;
-    private FrameFactory factory;
 
-    public NetworkListener(Game game, Executor executor, FrameFactory factory) {
+    public NetworkListener(Game game, Executor executor) {
         this.game = game;
         this.executor = executor;
-        this.factory = factory;
 
         this.thread = new Thread(() -> {
             try {
                 while (true) {
                     input.mark(MAX_BUFFER);
                     BinaryInputStream bin = new BinaryInputStream(input);
-                    Frame frame = factory.decode(bin);
+                    Frame frame = FRAME_FACTORY.decode(bin);
 
                     executor.execute(() -> {
                         if (frame instanceof TickFrame) {
@@ -47,7 +56,17 @@ public class NetworkListener {
                         return;
                     }
                 }
+            } catch (SocketException e) {
+                if (!Thread.interrupted()) {
+                    // If the thread is interrupted, this is expected because we're shutting down.
+                    // If the thread wasn't interrupted, something closed our connection on us! :(
+                    e.printStackTrace();
+                }
+            } catch (EOFException e) {
+                // Server close detected - should close the client or something here
+                e.printStackTrace();
             } catch (IOException e) {
+                // Some other error occurred. Connection probably lost
                 e.printStackTrace();
             }
         });

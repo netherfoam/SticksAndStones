@@ -1,7 +1,9 @@
 package org.maxgamer.sticks.common.model.state;
 
 public interface StateChangeVisitor {
-    void onChange(CreatureMove creatureMove);
+    void onChange(CreatureMove move);
 
-    void onChange(CreatureAdd creatureAdd);
+    void onChange(CreatureAdd add);
+
+    void onChange(CreatureRemove remove);
 }

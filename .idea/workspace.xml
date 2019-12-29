@@ -28,6 +28,7 @@
   <component name="ProjectId" id="1VZNa9tbatb5252CHylBFETgg5j" />
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_directory_selection" value="$PROJECT_DIR$/common/src/main/java/org/maxgamer/sticks" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/client" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.0" />
@@ -35,7 +36,14 @@
     <property name="restartRequiresConfirmation" value="false" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveMembersDialog.RECENTS_KEY">
+      <recent name="org.maxgamer.sticks.core.viewport.Viewport" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="org.maxgamer.sticks.core.world" />
+    </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="org.maxgamer.sticks.common.model.state" />
       <recent name="org.maxgamer.sticks.common.clock" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
@@ -59,9 +67,10 @@
     </option>
   </component>
   <component name="RunManager" selected="Application.Client">
-    <configuration name="Client" type="Application" factoryName="Application" temporary="true">
+    <configuration name="Client" type="Application" factoryName="Application" singleton="false" temporary="true">
       <option name="MAIN_CLASS_NAME" value="org.maxgamer.sticks.java.LauncherDesktop" />
       <module name="sticks-and-stones-desktop" />
+      <option name="VM_PARAMETERS" value="-Xmx200m" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/client" />
       <extension name="coverage">
         <pattern>
@@ -106,7 +115,8 @@
       <updated>1577456717169</updated>
       <workItem from="1577456720068" duration="750000" />
       <workItem from="1577457482019" duration="4543000" />
-      <workItem from="1577491559629" duration="12223000" />
+      <workItem from="1577491559629" duration="13556000" />
+      <workItem from="1577599311427" duration="9666000" />
     </task>
     <servers />
   </component>
@@ -118,6 +128,11 @@
           <url>jar://$MAVEN_REPOSITORY$/com/badlogicgames/gdx/gdx/1.2.0/gdx-1.2.0-sources.jar!/com/badlogic/gdx/maps/tiled/renderers/BatchTiledMapRenderer.java</url>
           <line>105</line>
           <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar:///usr/lib/jvm/java-8-openjdk-amd64/jre/lib/rt.jar!/java/lang/Class.class</url>
+          <line>675</line>
+          <option name="timeStamp" value="6" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

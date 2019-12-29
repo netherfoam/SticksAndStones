@@ -3,6 +3,7 @@ package org.maxgamer.sticks.common.network;
 import org.maxgamer.sticks.common.clock.Tickable;
 import org.maxgamer.sticks.common.model.state.CreatureAdd;
 import org.maxgamer.sticks.common.model.state.CreatureMove;
+import org.maxgamer.sticks.common.model.state.CreatureRemove;
 import org.maxgamer.sticks.common.model.state.StateChangeVisitor;
 import org.maxgamer.sticks.common.network.frame.TickFrame;
 
@@ -15,13 +16,18 @@ public class NetworkWorldStateVisitor implements StateChangeVisitor, Tickable {
     }
 
     @Override
-    public void onChange(CreatureMove creatureMove) {
-        nextTickFrame.moved(creatureMove.getCreatureId(), creatureMove.getDx(), creatureMove.getDy());
+    public void onChange(CreatureMove move) {
+        nextTickFrame.moved(move.getCreatureId(), move.getDirection());
     }
 
     @Override
-    public void onChange(CreatureAdd creatureAdd) {
-        nextTickFrame.added(creatureAdd.getId(), creatureAdd.getProto(), creatureAdd.getX(), creatureAdd.getY());
+    public void onChange(CreatureAdd add) {
+        nextTickFrame.added(add.getId(), add.getProto(), add.getX(), add.getY());
+    }
+
+    @Override
+    public void onChange(CreatureRemove remove) {
+        nextTickFrame.removed(remove.getCreatureId());
     }
 
     public void send() {

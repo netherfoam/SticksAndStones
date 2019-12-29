@@ -1,5 +1,7 @@
 package org.maxgamer.sticks.common.model;
 
+import org.maxgamer.sticks.common.world.Direction;
+
 public class Creature {
     private World world;
     private int id;
@@ -24,9 +26,9 @@ public class Creature {
         this.y = y;
     }
 
-    public void move(int dx, int dy) {
-        this.x += dx;
-        this.y += dy;
+    public void move(Direction direction) {
+        this.x += direction.dx;
+        this.y += direction.dy;
     }
 
     public World getWorld() {

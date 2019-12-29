@@ -6,20 +6,38 @@ import org.maxgamer.sticks.core.FloatingPosition;
 import org.maxgamer.sticks.core.world.Zone;
 import org.maxgamer.sticks.core.world.entity.CreatureImpl;
 
+import java.util.Map;
+
 public class Viewport {
+    public static final int ASPECT_WIDTH = 16;
+    public static final int DEFAULT_RES_WIDTH = ASPECT_WIDTH * 100;
+    public static final int ASPECT_HEIGHT = 9;
+    public static final int DEFAULT_RES_HEIGHT = ASPECT_HEIGHT * 100;
+    public static final float VIEWPORT_MULTIPLIER = 1.25f;
+    public static final float VIEWPORT_HEIGHT = (int) (ASPECT_HEIGHT * VIEWPORT_MULTIPLIER);
+    public static final float VIEWPORT_WIDTH = (int) (ASPECT_WIDTH * VIEWPORT_MULTIPLIER);
+
     private CreatureImpl focus;
     private float radX;
     private float radY;
     private OrthographicCamera camera;
 
     private Zone zone;
-    private CreatureRender creatures = new CreatureRender();
+    private CreatureRender creatures;
 
-    public Viewport(CreatureImpl focus, float width, float height, OrthographicCamera camera) {
-        this.focus = focus;
+    public Viewport(float width, float height, Map<Integer, CreatureImpl> creatures) {
+        camera = new OrthographicCamera(VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
+        camera.position.set(50, 50, 0);
+        camera.update();
+
+        this.creatures = new CreatureRender(creatures);
+
         this.radX = width / 2;
         this.radY = height / 2;
-        this.camera = camera;
+    }
+
+    public void setFocus(CreatureImpl focus) {
+        this.focus = focus;
     }
 
     public void setZone(Zone zone) {
@@ -31,11 +49,19 @@ public class Viewport {
     }
 
     public FloatingPosition getCenter() {
+        if (focus == null) {
+            return null;
+        }
+
         return focus.getPosition();
     }
 
     public boolean overlaps(FloatingPosition position, float width, float height) {
         FloatingPosition center = getCenter();
+
+        if (center == null) {
+            return false;
+        }
 
         if (position.getX() + width < center.getX() - radX) {
             // Too far left
@@ -66,6 +92,10 @@ public class Viewport {
 
     public void render(float delta) {
         FloatingPosition center = getCenter();
+
+        if (center == null) {
+            return;
+        }
 
         camera.position.set(center.getX(), center.getY(), 0);
         camera.update();

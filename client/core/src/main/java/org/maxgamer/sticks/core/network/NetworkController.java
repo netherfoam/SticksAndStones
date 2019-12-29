@@ -2,6 +2,7 @@ package org.maxgamer.sticks.core.network;
 
 import org.maxgamer.sticks.common.network.frame.MoveFrame;
 import org.maxgamer.sticks.common.stream.BinaryOutputStream;
+import org.maxgamer.sticks.common.world.Direction;
 
 import java.io.*;
 import java.net.Socket;
@@ -19,15 +20,14 @@ public class NetworkController {
         this.out = socket.getOutputStream();
     }
 
-    public void move(int dx, int dy) {
+    public void move(Direction direction) {
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             try (BinaryOutputStream bos = new BinaryOutputStream(baos)) {
                 MoveFrame frame = new MoveFrame();
-                frame.setDx((byte) dx);
-                frame.setDy((byte) dy);
+                frame.setDirection(direction);
 
-                bos.writeByte(MoveFrame.OPCODE);
+                bos.writeByte(frame.getOpcode());
                 frame.write(bos);
             }
 
@@ -39,5 +39,9 @@ public class NetworkController {
 
     public InputStream input() {
         return in;
+    }
+
+    public void stop() throws IOException {
+        socket.close();
     }
 }

@@ -7,6 +7,7 @@ import org.maxgamer.sticks.common.network.FrameFactory;
 import org.maxgamer.sticks.common.network.NettyServer;
 import org.maxgamer.sticks.common.network.NetworkWorldStateVisitor;
 import org.maxgamer.sticks.common.network.frame.MoveFrame;
+import org.maxgamer.sticks.common.network.frame.Opcodes;
 import org.maxgamer.sticks.common.network.frame.TickFrame;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -20,8 +21,8 @@ public class ServerConfig {
     @Bean
     public FrameFactory frameFactory() {
         FrameFactory factory = new FrameFactory();
-        factory.register(TickFrame.OPCODE, TickFrame::new);
-        factory.register(MoveFrame.OPCODE, MoveFrame::new);
+        factory.register(Opcodes.TICK, TickFrame::new);
+        factory.register(Opcodes.MOVE, MoveFrame::new);
 
         return factory;
     }

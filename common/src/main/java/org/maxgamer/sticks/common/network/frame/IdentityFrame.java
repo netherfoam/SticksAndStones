@@ -6,11 +6,10 @@ import org.maxgamer.sticks.common.stream.BinaryOutputStream;
 import java.io.IOException;
 
 public class IdentityFrame extends Frame {
-    public static final int OPCODE = 12;
     private int identity;
 
     public IdentityFrame() {
-        super(OPCODE);
+        super(Opcodes.IDENTITY);
     }
 
     @Override

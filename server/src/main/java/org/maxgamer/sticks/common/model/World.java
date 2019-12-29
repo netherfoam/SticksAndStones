@@ -2,6 +2,7 @@ package org.maxgamer.sticks.common.model;
 
 import org.maxgamer.sticks.common.model.state.CreatureAdd;
 import org.maxgamer.sticks.common.model.state.CreatureMove;
+import org.maxgamer.sticks.common.model.state.CreatureRemove;
 import org.maxgamer.sticks.common.model.state.StateChangeVisitor;
 
 import java.util.HashMap;
@@ -19,19 +20,30 @@ public class World implements StateChangeVisitor {
         this.subscriber = visitor;
     }
 
-    @Override
-    public void onChange(CreatureMove creatureMove) {
-        Creature creature = creatures.get(creatureMove.getCreatureId());
-        creature.move(creatureMove.getDx(), creatureMove.getDy());
-
-        subscriber.onChange(creatureMove);
+    public Map<Integer, Creature> getCreatures() {
+        return creatures;
     }
 
     @Override
-    public void onChange(CreatureAdd creatureAdd) {
-        Creature creature = new Creature(this, creatureAdd.getId(), creatureAdd.getProto(), creatureAdd.getX(), creatureAdd.getY());
-        creatures.put(creatureAdd.getId(), creature);
+    public void onChange(CreatureMove move) {
+        Creature creature = creatures.get(move.getCreatureId());
+        creature.move(move.getDirection());
 
-        subscriber.onChange(creatureAdd);
+        subscriber.onChange(move);
+    }
+
+    @Override
+    public void onChange(CreatureAdd add) {
+        Creature creature = new Creature(this, add.getId(), add.getProto(), add.getX(), add.getY());
+        creatures.put(add.getId(), creature);
+
+        subscriber.onChange(add);
+    }
+
+    @Override
+    public void onChange(CreatureRemove remove) {
+        creatures.remove(remove.getCreatureId());
+
+        subscriber.onChange(remove);
     }
 }

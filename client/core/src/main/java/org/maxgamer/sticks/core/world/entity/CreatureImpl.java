@@ -3,6 +3,7 @@ package org.maxgamer.sticks.core.world.entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.maxgamer.sticks.core.prototype.CreaturePrototype;
@@ -10,21 +11,22 @@ import org.maxgamer.sticks.core.sound.SoundKit;
 import org.maxgamer.sticks.core.sound.SoundLoop;
 import org.maxgamer.sticks.core.sound.SoundType;
 import org.maxgamer.sticks.core.tick.Clock;
-import org.maxgamer.sticks.core.world.Direction;
+import org.maxgamer.sticks.common.world.Direction;
 import org.maxgamer.sticks.core.world.Momentum;
-import org.maxgamer.sticks.core.viewport.Viewport;
 
 public class CreatureImpl extends EntityImpl implements Tickable {
+    private int id;
     private CreaturePrototype prototype;
     private Texture texture;
     private TextureRegion[][] textures;
     private Animation[] animations;
-    private Momentum momentum;
+    private Momentum momentum = new Momentum();
     private float frameTime = 0f;
     private SoundKit sounds;
     private SoundLoop walking;
 
-    public CreatureImpl(CreaturePrototype prototype) {
+    public CreatureImpl(int id, CreaturePrototype prototype) {
+        this.id = id;
         this.prototype = prototype;
         this.texture = new Texture(Gdx.files.internal(prototype.getAnimations()));
         this.textures = TextureRegion.split(this.texture, 64, 64);
@@ -41,14 +43,15 @@ public class CreatureImpl extends EntityImpl implements Tickable {
         }
     }
 
+    public int getId() {
+        return id;
+    }
+
     @Override
     public boolean tick() {
-        if (momentum != null && !momentum.isDone()) {
+        if (!momentum.isDone()) {
             position = momentum.apply(position);
-
-            if (momentum.isDone()) {
-                momentum = null;
-            }
+            setDirection(momentum.getDirection());
         }
 
         return false;
@@ -58,20 +61,19 @@ public class CreatureImpl extends EntityImpl implements Tickable {
         return momentum != null && !momentum.isDone();
     }
 
-    public boolean move(Momentum momentum) {
-        if (this.momentum != null && !this.momentum.isDone()) {
-            return false;
-        }
-
-        this.momentum = momentum;
-        if (momentum != null) {
-            this.direction = momentum.getDirection();
-        }
+    public boolean move(Direction direction) {
+        this.momentum.append(direction);
+        this.direction = this.momentum.getDirection();
 
         return true;
     }
 
     public void setDirection(Direction direction) {
+        if (direction == null) {
+            // Can't face null, keep old direction
+            return;
+        }
+
         this.direction = direction;
     }
 

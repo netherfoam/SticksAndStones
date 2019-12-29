@@ -11,11 +11,14 @@ import org.maxgamer.sticks.common.stream.Streams;
 import java.util.List;
 
 public class GameDecoder extends ByteToMessageDecoder {
+    private List<Client> clients;
+    private Client client;
     private FrameFactory factory;
-    private World world;
 
-    public GameDecoder(FrameFactory factory) {
+    public GameDecoder(FrameFactory factory, List<Client> clients, Client client) {
+        this.clients = clients;
         this.factory = factory;
+        this.client = client;
     }
 
     @Override
@@ -26,5 +29,19 @@ public class GameDecoder extends ByteToMessageDecoder {
                 out.add(frame);
             }
         }
+    }
+
+    @Override
+    public void channelActive(ChannelHandlerContext ctx) throws Exception {
+        super.channelActive(ctx);
+
+        clients.add(client);
+    }
+
+    @Override
+    public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+        super.channelInactive(ctx);
+
+        clients.remove(client);
     }
 }
