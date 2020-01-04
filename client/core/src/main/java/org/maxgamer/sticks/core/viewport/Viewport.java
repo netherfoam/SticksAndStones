@@ -1,12 +1,16 @@
 package org.maxgamer.sticks.core.viewport;
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Matrix4;
 import org.maxgamer.sticks.core.FloatingPosition;
+import org.maxgamer.sticks.core.controller.CreatureController;
+import org.maxgamer.sticks.core.hud.HUD;
+import org.maxgamer.sticks.core.hud.Inventory;
+import org.maxgamer.sticks.core.hud.SkillHUD;
+import org.maxgamer.sticks.core.world.World;
 import org.maxgamer.sticks.core.world.Zone;
 import org.maxgamer.sticks.core.world.entity.CreatureImpl;
-
-import java.util.Map;
 
 public class Viewport {
     public static final int ASPECT_WIDTH = 16;
@@ -21,16 +25,21 @@ public class Viewport {
     private float radX;
     private float radY;
     private OrthographicCamera camera;
+    private Inventory inventory;
+    private HUD hud;
+    private CreatureController input;
 
     private Zone zone;
     private CreatureRender creatures;
 
-    public Viewport(float width, float height, Map<Integer, CreatureImpl> creatures) {
+    public Viewport(float width, float height, World world) {
         camera = new OrthographicCamera(VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
         camera.position.set(50, 50, 0);
         camera.update();
 
-        this.creatures = new CreatureRender(creatures);
+        this.creatures = new CreatureRender(world.getCreatures());
+        this.inventory = new Inventory(4, 7);
+        this.hud = new HUD(inventory);
 
         this.radX = width / 2;
         this.radY = height / 2;
@@ -102,6 +111,7 @@ public class Viewport {
 
         getZone().render(delta, this);
         getCreatures().render(delta, this);
+        hud.render(delta, this);
     }
 
     public Matrix4 worldMatrix() {
@@ -110,5 +120,15 @@ public class Viewport {
 
     public OrthographicCamera getCamera() {
         return camera;
+    }
+
+    public void setInput(CreatureController input) {
+        this.input = input;
+
+        input.subscribe((k) -> inventory.setOpen(!inventory.isOpen()), true, Input.Keys.B);
+    }
+
+    public Inventory getInventory() {
+        return inventory;
     }
 }

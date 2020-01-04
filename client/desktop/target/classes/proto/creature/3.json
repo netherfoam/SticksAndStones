@@ -1,0 +1,37 @@
+{
+  "animations": {
+    "type": "ORDINAL",
+    "north": {
+      "sheet": "sprite/Goblin/North.png",
+      "width": 32,
+      "height": 32
+    },
+    "south": {
+      "sheet": "sprite/Goblin/South.png",
+      "width": 32,
+      "height": 32
+    },
+    "east": {
+      "sheet": "sprite/Goblin/East.png",
+      "width": 32,
+      "height": 32
+    },
+    "west": {
+      "sheet": "sprite/Goblin/West.png",
+      "width": 32,
+      "height": 32
+    }
+  },
+  "footstep": [
+    "footstep/0.wav",
+    "footstep/1.wav",
+    "footstep/2.wav",
+    "footstep/3.wav",
+    "footstep/4.wav",
+    "footstep/5.wav",
+    "footstep/6.wav",
+    "footstep/7.wav",
+    "footstep/8.wav",
+    "footstep/9.wav"
+  ]
+}

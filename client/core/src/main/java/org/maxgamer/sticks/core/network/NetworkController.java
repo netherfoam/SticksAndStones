@@ -1,5 +1,6 @@
 package org.maxgamer.sticks.core.network;
 
+import org.maxgamer.sticks.common.network.frame.Frame;
 import org.maxgamer.sticks.common.network.frame.MoveFrame;
 import org.maxgamer.sticks.common.stream.BinaryOutputStream;
 import org.maxgamer.sticks.common.world.Direction;
@@ -21,12 +22,15 @@ public class NetworkController {
     }
 
     public void move(Direction direction) {
+        MoveFrame frame = new MoveFrame();
+        frame.setDirection(direction);
+        write(frame);
+    }
+
+    public void write(Frame frame) {
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             try (BinaryOutputStream bos = new BinaryOutputStream(baos)) {
-                MoveFrame frame = new MoveFrame();
-                frame.setDirection(direction);
-
                 bos.writeByte(frame.getOpcode());
                 frame.write(bos);
             }

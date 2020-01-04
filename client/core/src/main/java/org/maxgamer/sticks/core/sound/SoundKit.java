@@ -17,7 +17,7 @@ public class SoundKit {
     }
 
     public List<Sound> get(SoundType type) {
-        return Collections.unmodifiableList(sounds.get(type));
+        return Collections.unmodifiableList(sounds.getOrDefault(type, Collections.emptyList()));
     }
 
     public Sound get(SoundType type, int index, boolean loop) {

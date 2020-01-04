@@ -7,6 +7,7 @@ import java.io.IOException;
 
 public class IdentityFrame extends Frame {
     private int identity;
+    private int proto = 1;
 
     public IdentityFrame() {
         super(Opcodes.IDENTITY);
@@ -15,11 +16,13 @@ public class IdentityFrame extends Frame {
     @Override
     public void read(BinaryInputStream in) throws IOException {
         identity = in.readInt();
+        proto = in.readInt();
     }
 
     @Override
     public void write(BinaryOutputStream out) throws IOException {
         out.writeInt(identity);
+        out.writeInt(proto);
     }
 
     public int getIdentity() {
@@ -28,5 +31,13 @@ public class IdentityFrame extends Frame {
 
     public void setIdentity(int identity) {
         this.identity = identity;
+    }
+
+    public int getProto() {
+        return proto;
+    }
+
+    public void setProto(int proto) {
+        this.proto = proto;
     }
 }

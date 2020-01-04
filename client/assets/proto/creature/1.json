@@ -1,5 +1,10 @@
 {
-  "animations": "trainer.png",
+  "animations": {
+    "type": "SHEET",
+    "sheet": "trainer.png",
+    "width": 64,
+    "height": 64
+  },
   "footstep": [
     "footstep/0.wav",
     "footstep/1.wav",

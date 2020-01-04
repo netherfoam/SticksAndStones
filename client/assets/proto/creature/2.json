@@ -1,0 +1,28 @@
+{
+  "animations": {
+    "type": "ORDINAL",
+    "north": {
+      "sheet": "sprite/Cock/5.png",
+      "width": 22,
+      "height": 27
+    },
+    "south": {
+      "sheet": "sprite/Cock/4.png",
+      "width": 22,
+      "height": 27
+    },
+    "east": {
+      "sheet": "sprite/Cock/3.png",
+      "width": 32,
+      "height": 26
+    },
+    "west": {
+      "sheet": "sprite/Cock/2.png",
+      "width": 32,
+      "height": 26
+    }
+  },
+  "footstep": [
+
+  ]
+}

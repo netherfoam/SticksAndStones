@@ -6,7 +6,7 @@ import org.maxgamer.sticks.common.network.frame.IdentityFrame;
 import org.maxgamer.sticks.common.network.frame.Opcodes;
 import org.maxgamer.sticks.common.network.frame.TickFrame;
 import org.maxgamer.sticks.common.stream.BinaryInputStream;
-import org.maxgamer.sticks.core.Game;
+import org.maxgamer.sticks.core.world.NetworkHandler;
 
 import java.io.BufferedInputStream;
 import java.io.EOFException;
@@ -26,13 +26,13 @@ public class NetworkListener {
         FRAME_FACTORY.register(Opcodes.IDENTITY, IdentityFrame::new);
     }
 
-    private Game game;
+    private NetworkHandler networkHandler;
     private Executor executor;
     private Thread thread;
     private BufferedInputStream input;
 
-    public NetworkListener(Game game, Executor executor) {
-        this.game = game;
+    public NetworkListener(NetworkHandler networkHandler, Executor executor) {
+        this.networkHandler = networkHandler;
         this.executor = executor;
 
         this.thread = new Thread(() -> {
@@ -44,11 +44,11 @@ public class NetworkListener {
 
                     executor.execute(() -> {
                         if (frame instanceof TickFrame) {
-                            this.game.handle((TickFrame) frame);
+                            this.networkHandler.handle((TickFrame) frame);
                         }
 
                         if (frame instanceof IdentityFrame) {
-                            this.game.handle((IdentityFrame) frame);
+                            this.networkHandler.handle((IdentityFrame) frame);
                         }
                     });
 

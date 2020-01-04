@@ -29,7 +29,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/common/src/main/java/org/maxgamer/sticks" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/client" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/client/assets/proto/creature" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -40,18 +40,26 @@
       <recent name="org.maxgamer.sticks.core.viewport.Viewport" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="org.maxgamer.sticks.core.world.entity" />
       <recent name="org.maxgamer.sticks.core.world" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/client/assets/sprite/Goblin" />
+      <recent name="$PROJECT_DIR$/client/assets/map/tiles" />
+      <recent name="$PROJECT_DIR$/client/assets/map/zone" />
+      <recent name="$PROJECT_DIR$/client/assets/proto/" />
+      <recent name="$PROJECT_DIR$/client/assets/map" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="org.maxgamer.sticks.common.model.state" />
       <recent name="org.maxgamer.sticks.common.clock" />
     </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/client/assets/map/tiles" />
-      <recent name="$PROJECT_DIR$/client/assets/map/zone" />
-      <recent name="$PROJECT_DIR$/client/assets/proto/" />
-      <recent name="$PROJECT_DIR$/client/assets/map" />
-      <recent name="$PROJECT_DIR$/client/assets/map/meta" />
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/client/assets/proto/creature" />
+      <recent name="$PROJECT_DIR$/client/assets/sprite/Goblin" />
+      <recent name="$PROJECT_DIR$/client/assets/hud/rs" />
+      <recent name="$PROJECT_DIR$/client/assets/sprite" />
+      <recent name="$PROJECT_DIR$/client/assets/proto/item" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -83,7 +91,7 @@
       </method>
     </configuration>
     <configuration name="Server" type="Application" factoryName="Application" temporary="true">
-      <option name="MAIN_CLASS_NAME" value="org.maxgamer.sticks.common.Launcher" />
+      <option name="MAIN_CLASS_NAME" value="org.maxgamer.sticks.server.Launcher" />
       <module name="server" />
       <extension name="coverage">
         <pattern>
@@ -117,6 +125,11 @@
       <workItem from="1577457482019" duration="4543000" />
       <workItem from="1577491559629" duration="13556000" />
       <workItem from="1577599311427" duration="9680000" />
+      <workItem from="1577665577475" duration="3644000" />
+      <workItem from="1577669452126" duration="10848000" />
+      <workItem from="1577763878999" duration="3382000" />
+      <workItem from="1578032853697" duration="6986000" />
+      <workItem from="1578106344784" duration="1830000" />
     </task>
     <servers />
   </component>
@@ -133,6 +146,16 @@
           <url>jar:///usr/lib/jvm/java-8-openjdk-amd64/jre/lib/rt.jar!/java/lang/Class.class</url>
           <line>675</line>
           <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar:///usr/lib/jvm/java-8-openjdk-amd64/jre/lib/rt.jar!/java/util/Collections.class</url>
+          <line>4257</line>
+          <option name="timeStamp" value="16" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/server/src/main/java/org/maxgamer/sticks/server/model/Creature.java</url>
+          <line>19</line>
+          <option name="timeStamp" value="24" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

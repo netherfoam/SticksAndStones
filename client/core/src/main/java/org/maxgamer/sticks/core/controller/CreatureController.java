@@ -16,6 +16,7 @@ public class CreatureController extends InputAdapter {
     private Zone zone;
     private CreatureImpl creature;
     private List<Integer> pressed = new ArrayList<>();
+    private List<KeySubscription> subscriptions = new ArrayList<>();
 
     public CreatureController(NetworkController network, CreatureImpl creature, Zone zone) {
         this.network = network;
@@ -23,10 +24,27 @@ public class CreatureController extends InputAdapter {
         this.zone = zone;
     }
 
+    public KeySubscription subscribe(KeySubscriber subscriber, boolean onRelease, int... keys) {
+        KeySubscription subscription = new KeySubscription(keys, onRelease, subscriber);
+
+        subscriptions.add(subscription);
+        return subscription;
+    }
+
+    public void unsubscribe(KeySubscription subscription) {
+        subscriptions.remove(subscription);
+    }
+
     @Override
     public boolean keyDown(int keycode) {
         if (!pressed.contains(keycode)) {
             pressed.add(keycode);
+        }
+
+        for (KeySubscription subscription : subscriptions) {
+            if (!subscription.isOnRelease() && subscription.isSubscribedTo(keycode)) {
+                subscription.getSubscriber().activate(keycode);
+            }
         }
 
         return false;
@@ -39,6 +57,13 @@ public class CreatureController extends InputAdapter {
         if (keycode == Input.Keys.ESCAPE) {
             Gdx.app.exit();
         }
+
+        for (KeySubscription subscription : subscriptions) {
+            if (subscription.isOnRelease() && subscription.isSubscribedTo(keycode)) {
+                subscription.getSubscriber().activate(keycode);
+            }
+        }
+
 
         return false;
     }

@@ -14,6 +14,7 @@ public class PrototypeFactory {
     private static final Map<Class, String> DIRECTORIES = new HashMap<>();
     static {
         DIRECTORIES.put(CreaturePrototype.class, "creature");
+        DIRECTORIES.put(ItemPrototype.class, "item");
     }
 
     private ObjectMapper mapper;
